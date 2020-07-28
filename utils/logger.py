@@ -52,6 +52,6 @@ class Logger(object):
 
         # Create and write Summary
         with self.writer.as_default():
-            tf.summary.histogram(name = tag , data= hist, step= step)
+            tf.summary.histogram(name = tag , data= values, step= step)
              #self.writer.add_summary(summary, step)
             self.writer.flush()
