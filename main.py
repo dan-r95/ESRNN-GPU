@@ -24,3 +24,8 @@ run_id = str(int(time.time()))
 model = ESRNN(num_series=len(dataset), config=config)
 tr = ESRNNTrainer(model, dataloader, run_id, config, ohe_headers=dataset.dataInfoCatHeaders)
 tr.train_epochs()
+
+#validate trained model
+tr.val()
+#save it !
+tr.save()
