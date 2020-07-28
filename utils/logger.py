@@ -6,7 +6,7 @@ class Logger(object):
     """Logging in tensorboard without tensorflow ops."""
 
     def __init__(self, log_dir):
-        self.writer = tf.summary.FileWriter(log_dir)
+        self.writer = tf.summary.create_file_writer(log_dir)
 
     def log_scalar(self, tag, value, step):
         """Log a scalar variable.
@@ -17,8 +17,11 @@ class Logger(object):
         step :  training iteration
         """
         # Notice we're using the Summary "class" instead of the "tf.summary" public API.
-        summary = tf.Summary(value=[tf.Summary.Value(tag=tag, simple_value=value)])
-        self.writer.add_summary(summary, step)
+        #summary = tf.Summary(value=[tf.Summary.Value(tag=tag, simple_value=value)])
+        with self.writer.as_default():
+            #self.writer.add_summary(summary, step)
+            tf.summary.scalar(tag, value, step= step)
+            self.writer.flush()
 
     def log_histogram(self, tag, values, step, bins=1000):
         """Logs the histogram of a list/vector of values."""
